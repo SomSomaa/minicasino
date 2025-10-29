@@ -19,7 +19,7 @@ const SYMBOLS = [
   { icon: "🔔", weight: 10, pay: 20 },
   { icon: "💎", weight: 6,  pay: 40 },
   { icon: "7️⃣", weight: 3,  pay: 100 },
-  { icon: "BONUS", weight: 6, pay: 0 },
+  { icon: "BONUS", weight: 30, pay: 0 },
 ];
 
 // Gyors választólista a súlyozott randomhoz

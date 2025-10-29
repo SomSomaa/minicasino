@@ -92,13 +92,17 @@ body{
 .modal.show{ display:flex; }
 
 .modal-content{
-  width:100%; max-width:800px; background:linear-gradient(180deg,#141a25,#10141c);
+  width:100%; 
+  max-width:900px !important; /* << FIX: nagyobb hely a rulettnek */
+  background:linear-gradient(180deg,#141a25,#10141c);
   border:1px solid rgba(255,255,255,.08); border-radius:20px; box-shadow:var(--shadow);
   padding:16px;
 }
 .modal-header{
   display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;
 }
+
+/* SLOTS UI */
 .slot-controls{
   display:flex; gap:12px; align-items:center; flex-wrap:wrap;
   background:#0f1319; border:1px solid rgba(255,255,255,.06); border-radius:14px;
@@ -109,7 +113,7 @@ body{
   padding:8px 10px; border-radius:10px; min-width:120px;
 }
 
-/* --- REELS 3×3 --- */
+/* --- SLOTS reels --- */
 .reels{
   display:grid; grid-template-columns:repeat(3, 1fr); gap:10px;
   background:#0f1319; padding:12px; border-radius:16px; border:1px solid rgba(255,255,255,.06);
@@ -121,20 +125,18 @@ body{
   transition: transform .2s ease;
 }
 .symbol.win{ outline:2px solid var(--accent-2); transform:scale(1.04); }
-.slot-info{ margin-top:10px; }
 
-/* kisebb képernyő */
 @media (max-width:600px){
   .symbol{ height:64px; font-size:28px; }
 }
-/* NEON BUTTONS */
+
+/* Neon buttons */
 .btn.neon {
   background: linear-gradient(90deg,#7a00ff,#0066ff);
   box-shadow: 0 0 10px #6f04fc88, inset 0 0 10px #003cff66;
   text-shadow: 0 0 6px #8d50ff;
   transition: 0.2s;
 }
-
 .btn.neon:hover {
   box-shadow: 0 0 18px #9858ffcc, inset 0 0 18px #0070ffcc;
   transform: scale(1.05);
@@ -146,100 +148,382 @@ body{
   box-shadow: 0 0 10px #ff004466;
 }
 
-/* REEL SPIN EFFECT */
-.spin-blur .symbol {
-  opacity: 0.7;
-  filter: blur(4px);
-}
-
-/* WIN ANIM */
-.symbol.win {
-  animation: pulseWin .4s infinite alternate;
-}
-
-@keyframes pulseWin {
-  from { transform: scale(1); box-shadow: 0 0 8px #7a00ff; }
-  to   { transform: scale(1.1); box-shadow: 0 0 16px #4ac3ff; }
-}
-
-/* LOSS shake */
-.shake {
-  animation: shake .3s;
-}
-
-@keyframes shake {
-  0% { transform: translateX(0px); }
-  25% { transform: translateX(-4px); }
-  50% { transform: translateX(4px); }
-  75% { transform: translateX(-4px); }
-  100% { transform: translateX(0px); }
-}
-
-/* Big win text */
-.big-win {
-  font-size: 28px;
-  font-weight: 700;
-  color: #49d8ff;
-  text-shadow: 0 0 10px #00eaff;
-}
-/* BONUS icon image */
-.symbol .bonus-icon {
-  width: 56px; height: 56px; object-fit: contain;
-  filter: drop-shadow(0 0 6px #7a00ffcc);
-}
-
-/* BONUS banner */
-.bonus-banner{
-  margin-top:10px;
-  background:linear-gradient(90deg,#1a1230,#0d203a);
-  border:1px solid rgba(255,255,255,.18);
-  color:#bfe6ff;
-  padding:8px 12px;
-  border-radius:12px;
-  box-shadow:0 0 12px #0066ff55 inset;
-  letter-spacing:.3px;
-  font-weight:600;
-}
-/* optional: no blur override */
+/* Blur / animáció */
 .spin-blur .symbol {
   opacity: 1 !important;
   filter: none !important;
 }
 
-/* Roulette modal basic layout */
-.roulette-board {
-  display:flex;
-  justify-content:center;
-  margin:15px 0;
+/* Win anim */
+.symbol.win {
+  animation: pulseWin .4s infinite alternate;
+}
+@keyframes pulseWin {
+  from { transform: scale(1); box-shadow: 0 0 8px #7a00ff; }
+  to   { transform: scale(1.1); box-shadow: 0 0 16px #4ac3ff; }
 }
 
-#rouletteCanvas {
-  background:#0e1323;
+/* Shake */
+.shake { animation: shake .3s; }
+@keyframes shake {
+  0%{transform:translateX(0)} 25%{transform:translateX(-4px)}
+  50%{transform:translateX(4px)} 75%{transform:translateX(-4px)}
+  100%{transform:translateX(0)}
+}
+
+/* Big win text */
+.big-win{
+  font-size:28px;font-weight:700;color:#49d8ff;
+  text-shadow:0 0 10px #00eaff;
+}
+
+/* BONUS */
+.symbol .bonus-icon{ width:56px;height:56px;object-fit:contain;filter:drop-shadow(0 0 6px #7a00ffcc); }
+.bonus-banner{
+  margin-top:10px;
+  background:linear-gradient(90deg,#1a1230,#0d203a);
+  border:1px solid rgba(255,255,255,.18);
+  color:#bfe6ff;padding:8px 12px;border-radius:12px;
+  box-shadow:0 0 12px #0066ff55 inset;letter-spacing:.3px;font-weight:600;
+}
+
+/* CLOSE BTN */
+.game-modal .close{
+  cursor:pointer;font-size:22px;padding:4px 8px;border-radius:8px;color:#cbd5e1;
+}
+.game-modal .close:hover{ background:#ffffff14; }
+
+/* ✅ Roulette layout fix */
+.roulette-layout{
+  display:grid;
+  grid-template-columns:minmax(440px,1fr) 300px;
+  gap:24px;
+  align-items:center;
+}
+@media(max-width:900px){
+  .roulette-layout{
+    grid-template-columns:1fr;
+  }
+}
+
+.roulette-board{
+  display:flex;justify-content:center;align-items:center;
+  background:radial-gradient(800px 400px at 50% -20%, rgba(74,168,255,.10), transparent);
+  border-radius:18px;border:1px solid #ffffff14;
+  padding:12px;
+}
+
+#rouletteCanvas{
+  max-width:100%;
+  height:auto;
+  background:#0c1220;
   border-radius:50%;
-  border:3px solid #ffffff22;
+  box-shadow:0 8px 30px rgba(0,0,0,.35), inset 0 0 30px rgba(255,255,255,.06);
 }
 
-.bet-controls {
-  display:flex;
+.bet-panel{
+  background:linear-gradient(180deg,#141a25,#10141c);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;padding:12px;box-shadow: var(--shadow);
+}
+
+.bet-row{ display:flex; gap:8px; align-items:center; margin-bottom:10px; flex-wrap:wrap; }
+.bet-btn{
+  padding:8px 12px; border-radius:10px; border:1px solid #ffffff22;
+  background:#182235; color:#e7eef7; cursor:pointer;
+}
+.bet-btn.active{ outline:2px solid #4aa8ff; box-shadow:0 0 10px #4aa8ff66; }
+/* --- Roulette bet panel polish --- */
+.bet-panel{
+  padding:14px 16px;
+}
+
+.bet-panel .bet-row{
+  gap:10px;
+  align-items:center;
+  margin-bottom:12px;
   flex-wrap:wrap;
+}
+
+/* kis halvány címke a sor tetején (a Te markupoddal is működik) */
+.bet-panel label{
+  font-size:13px;
+  color:var(--muted);
+  min-width:100%;
+  margin-bottom:4px;
+}
+
+/* egységes, modern inputok */
+.bet-panel input[type="number"],
+.bet-panel input[type="text"]{
+  background:#0b1016;
+  color:var(--text);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:12px;
+  padding:8px 10px;
+  height:36px;
+  outline:none;
+  transition:border-color .2s, box-shadow .2s, filter .2s;
+}
+.bet-panel input::placeholder{ color:#94a3b844; }
+.bet-panel input:focus{
+  border-color:#4aa8ff88;
+  box-shadow:0 0 0 3px #4aa8ff22;
+}
+
+/* „pill” gombok, egységes magasság */
+.bet-btn{
+  background:#111a2a;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:12px;
+  height:36px;
+  padding:0 14px;
+  color:#e7eef7;
+  font-weight:600;
+  letter-spacing:.2px;
+  cursor:pointer;
+  transition:transform .12s ease, box-shadow .2s ease, filter .2s ease;
+}
+.bet-btn:hover{ filter:brightness(1.08); transform:translateY(-1px); }
+.bet-btn:active{ transform:translateY(0); }
+.bet-btn.active{
+  outline:none;
+  box-shadow:0 0 0 3px #4aa8ff33, 0 0 18px #4aa8ff55 inset;
+  border-color:#4aa8ff88;
+}
+
+/* SPIN – hangsúlyosabb */
+#btnSpin{
+  border-radius:12px;
+  height:42px;
+  font-weight:700;
+  letter-spacing:.3px;
+}
+
+/* info sor távolság */
+#rouletteMsg{ margin-top:6px; }
+
+/* --- Roulette TABLE layout --- */
+.table-section{ 
+  grid-column: 1 / -1; 
+  margin-top: 16px;
+}
+
+.roulette-table{
+  display:grid;
+  grid-template-columns: 64px repeat(12, 1fr); /* bal oszlop: 0, jobb oldalt 1..36 három sorban */
   gap:8px;
-  justify-content:center;
+  background:#0e1423;
+  border:1px solid #ffffff14;
+  border-radius:14px;
+  padding:12px;
+}
+
+/* cellák */
+.rt-cell{
+  position:relative;
+  height:44px;
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700; letter-spacing:.2px;
+  user-select:none; cursor:pointer;
+  border:1px solid #ffffff1a;
+}
+
+.rt-green{ background:#118a4f; color:#e7eef7; }
+.rt-red  { background:#c53b43; color:#fff; }
+.rt-black{ background:#1c2435; color:#e7eef7; }
+
+.rt-cell:hover{ filter:brightness(1.06); }
+
+/* 0 a bal sávban 3 soron át */
+.rt-zero{ grid-row: 1 / span 3; }
+
+/* chip “badge” a cella sarkában */
+.rt-badge{
+  position:absolute; right:6px; bottom:6px;
+  min-width:32px; height:22px; padding:0 6px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:999px;
+  background:#1e2a44; color:#cfe6ff; font-size:12px;
+  border:1px solid #4aa8ff66;
+  pointer-events:none;
+}
+
+/* actions strip */
+.table-actions{
+  display:flex; flex-direction:column; gap:8px;
+  padding:10px 12px; margin-top:10px;
+  background:#0e1423; border:1px solid #ffffff14; border-radius:12px;
+}
+.bet-sum{ color:#c9d7ea; }
+
+/* chip választó gombok */
+.chip-row{ display:flex; gap:8px; flex-wrap:wrap; }
+.chip{
+  height:36px; padding:0 14px; border-radius:999px; cursor:pointer;
+  background:#161f33; color:#e7eef7; border:1px solid #ffffff22;
+  font-weight:700;
+}
+.chip.active{ box-shadow:0 0 0 3px #4aa8ff33, inset 0 0 16px #4aa8ff33; border-color:#4aa8ff88; }
+
+/* history */
+.history{ margin-top:10px; color:#c9d7ea; }
+.history-strip{ display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; }
+.h-item{
+  width:30px; height:30px; border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px; font-weight:700; color:#fff;
+  border:1px solid #ffffff22;
+}
+.h-red{   background:#c53b43; }
+.h-black{ background:#1c2435; color:#e7eef7; }
+.h-green{ background:#118a4f; }
+/* Középre helyezett rulett chip */
+.rt-chip{
+  position:absolute;
+  left:50%; top:50%; transform:translate(-50%, -50%);
+  width:28px; height:28px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:12px; font-weight:800; letter-spacing:.2px;
+  background: radial-gradient(35% 35% at 30% 30%, #c9d7ff, #8aa8ff);
+  border:2px solid #2b3b67;
+  box-shadow: 0 4px 14px rgba(0,0,0,.35), 0 0 12px #4aa8ff55 inset;
+  color:#111a2a;
+  pointer-events:none; /* hogy a kattintás a cellára menjen, ne a chipre */
+}
+
+.rt-chip em{
+  position:absolute;
+  right:-8px; bottom:-8px;
+  font-style:normal; font-size:11px; font-weight:800;
+  background:#182235; color:#cfe2ff;
+  border:1px solid #4aa8ff88; border-radius:10px;
+  padding:0 6px; height:18px; display:flex; align-items:center; justify-content:center;
+  box-shadow:0 0 10px #4aa8ff44;
+}
+
+/* hogy a chip ne vágódjon le */
+.rt-cell{ overflow:visible; }
+/* ===== Game-open aurora effekt a balance kártyán ===== */
+/* ===== WOW mód a felső egyenleg-szövegen, amikor játék modal nyitva van ===== */
+#balance{
+  position: relative;
+  display: inline-block;
+  transition: transform .25s ease, letter-spacing .25s ease, text-shadow .25s ease;
+}
+
+/* játék közben “bekapcsol” */
+.game-open #balance{
+  font-size: 34px;                /* nagyobb (eredeti ~28px volt) */
+  letter-spacing: .5px;
+  transform: translateY(2px) scale(1.06);
+  /* gradiens szöveg */
+  background: linear-gradient(90deg,#7ad3ff 0%, #a87bff 50%, #7ad3ff 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: balanceShimmer 3.8s ease-in-out infinite, balancePulse 2.2s ease-in-out infinite;
+  text-shadow: 0 0 14px rgba(122,211,255,.25);
+}
+
+/* időnkénti csillanás a gradiensben */
+@keyframes balanceShimmer{
+  0%{ background-position: 0% 0%; }
+  50%{ background-position: 100% 0%; }
+  100%{ background-position: 0% 0%; }
+}
+
+/* finom “lélegzés” + fény */
+@keyframes balancePulse{
+  0%  { text-shadow: 0 0 10px rgba(122,211,255,.20), 0 0 0 rgba(168,123,255,0); }
+  50% { text-shadow: 0 0 16px rgba(122,211,255,.35), 0 0 24px rgba(168,123,255,.18); }
+  100%{ text-shadow: 0 0 10px rgba(122,211,255,.20), 0 0 0 rgba(168,123,255,0); }
+}
+
+/* vékony fénycsík a szöveg alatt (csak játék közben) */
+.game-open #balance::after{
+  content:"";
+  position:absolute; left:0; right:0; bottom:-6px; height:2px;
+  background: linear-gradient(90deg, transparent, rgba(122,211,255,.7), transparent);
+  transform: translateX(-120%);
+  animation: balanceSweep 3.8s ease-in-out infinite;
+  border-radius: 2px;
+}
+@keyframes balanceSweep{
+  0%   { transform: translateX(-120%); }
+  55%  { transform: translateX(130%); }
+  100% { transform: translateX(130%); }
+}
+/* --- Outside bet sor (Red/Black/Odd/Even) --- */
+.outside-row{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap:8px;
   margin-top:10px;
 }
 
-.bet-controls button {
-  padding:8px 12px;
-  border-radius:8px;
-  cursor:pointer;
+.rt-out{
+  position:relative;
+  height:44px;
+  border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:800; letter-spacing:.4px;
+  user-select:none; cursor:pointer;
+  border:1px solid #ffffff1a; color:#e7eef7;
 }
-.game-modal .close{
-  cursor:pointer;
-  float:right;
-  font-size:22px;
-  padding:4px 8px;
-  border-radius:8px;
-  color:#cbd5e1;
+.rt-out:hover{ filter:brightness(1.06); }
+
+.rt-out-red   { background:#c53b43; }
+.rt-out-black { background:#1c2435; }
+.rt-out-neutral{
+  background:#182235;
 }
-.game-modal .close:hover{
-  background:#ffffff14;
+
+/* ugyanaz a középre helyezett chip, mint a számos cellán */
+.rt-out .rt-chip{
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:28px; height:28px; border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px; font-weight:800;
+  background: radial-gradient(35% 35% at 30% 30%, #c9d7ff, #8aa8ff);
+  border:2px solid #2b3b67; color:#111a2a;
+  box-shadow: 0 4px 14px rgba(0,0,0,.35), 0 0 12px #4aa8ff55 inset;
+  pointer-events:none;
 }
+.rt-out .rt-chip em{
+  position:absolute; right:-8px; bottom:-8px;
+  font-style:normal; font-size:11px; font-weight:800;
+  background:#182235; color:#cfe2ff;
+  border:1px solid #4aa8ff88; border-radius:10px;
+  padding:0 6px; height:18px; display:flex; align-items:center; justify-content:center;
+  box-shadow:0 0 10px #4aa8ff44;
+}
+/* --- Roulette modal pozíció: kicsit lejjebb, hogy a balance biztosan látszódjon --- */
+.modal-content.game-modal{
+  margin-top: 110px;                    /* <- ezzel visszük lejjebb a dobozt */
+  max-height: calc(100vh - 120px);     /* hogy még így se lógjon ki */
+  overflow: auto;                      /* ha hosszú, belül görgessen */
+}
+
+/* Nagyon alacsony kijelzőknél kisebb eltolás, különben túl sok helyet venne el felül */
+@media (max-height: 760px){
+  .modal-content.game-modal{
+    margin-top: 60px;
+    max-height: calc(100vh - 96px);
+  }
+}
+
+/* --- Roulette bet tools --- */
+.bet-tools{
+  display:flex; gap:8px; flex-wrap:wrap;
+  margin:8px 0 0 0;
+}
+.bet-tools .bet-btn{
+  height:36px; padding:0 12px; border-radius:10px;
+  background:#111a2a; color:#e7eef7;
+  border:1px solid rgba(255,255,255,.14);
+  font-weight:600; letter-spacing:.2px; cursor:pointer;
+}
+.bet-tools .bet-btn:hover{ filter:brightness(1.08); transform:translateY(-1px); }

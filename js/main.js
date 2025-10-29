@@ -75,12 +75,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!profile) { showToast("Előbb mentsd el a profilnevet."); return; }
     slotModal.classList.add("show");
     slotModal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("game-open");
     initSlots(); // belső elemek bekötése, rács kirajzolás
   }
 
   function closeSlots() {
     slotModal.classList.remove("show");
     slotModal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("game-open");
   }
 
   openSlotsBtn.addEventListener("click", openSlots);
@@ -100,12 +102,14 @@ function openRoulette() {
   if (!profile) { showToast("Előbb mentsd el a profilnevet."); return; }
   rouletteModal.classList.add("show");
   rouletteModal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("game-open");  
   initRoulette();
 }
 
 function closeRoulette() {
   rouletteModal.classList.remove("show");
   rouletteModal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("game-open");
 }
 
 openRouletteBtn.addEventListener("click", openRoulette);

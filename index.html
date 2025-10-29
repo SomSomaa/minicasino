@@ -20,7 +20,7 @@
 
   <main class="container">
     <section class="wallet">
-      <div class="card">
+      <div class="card" >
         <div class="row">
           <div>
             <div class="label">Egyenleg</div>
@@ -102,29 +102,59 @@
   </div>
 
   <!-- Roulette Modal -->
-<div id="rouletteModal" class="modal">
-  <div class="modal-content game-modal">
+<div id="rouletteModal" class="modal" aria-hidden="true">
+  <div class="modal-content game-modal" role="dialog" aria-modal="true" aria-labelledby="rouletteTitle">
     <span class="close" data-close="rouletteModal">&times;</span>
+    <h2 id="rouletteTitle">Roulette 🎲</h2>
 
-    <h2>Roulette 🎲</h2>
-
-    <div class="roulette-board">
-      <canvas id="rouletteCanvas" width="300" height="300"></canvas>
+    <div class="roulette-board" style="margin-bottom:10px;">
+      <canvas id="rouletteCanvas" width="420" height="420"></canvas>
     </div>
+    <div id="rouletteMsg" class="muted" style="margin-bottom:6px;">Válassz téteket, majd SPIN.</div>
 
-    <div class="bet-controls">
-      <label for="rouletteBet">Tét (token):</label>
-      <input type="number" id="rouletteBet" value="100" min="100" step="100">
-      <button id="btnRed">Red</button>
-      <button id="btnBlack">Black</button>
-      <button id="btnOdd">Odd</button>
-      <button id="btnEven">Even</button>
-      <button id="btnStraight">Szám tét</button>
+    <!-- TABLE + OUTSIDE + CHIPS + SPIN + HISTORY -->
+    <div class="table-section">
+      <div id="rouletteTable" class="roulette-table"></div>
+
+      <div id="outsideRow" class="outside-row">
+        <div class="rt-out rt-out-red"   data-out="red">RED</div>
+        <div class="rt-out rt-out-black" data-out="black">BLACK</div>
+        <div class="rt-out rt-out-neutral" data-out="odd">ODD</div>
+        <div class="rt-out rt-out-neutral" data-out="even">EVEN</div>
+      </div>
+
+      <div class="table-actions">
+        <div class="bet-sum">
+          Összes tét: <strong><span id="betTotal">0</span></strong> token
+          &nbsp;•&nbsp; Aktív chip: <strong><span id="chipValueView">100</span></strong>
+        </div>
+
+        <div class="chip-row">
+          <button class="chip" data-chip="100">100</button>
+          <button class="chip" data-chip="500">500</button>
+          <button class="chip" data-chip="1000">1k</button>
+          <button class="chip" data-chip="5000">5k</button>
+          <button id="btnClear" class="bet-btn" style="margin-left:auto;">Törlés</button>
+        </div>
+
+        <div class="bet-tools">
+            <button id="btnUndo"   class="bet-btn">Visszavonás</button>
+            <button id="btnRepeat" class="bet-btn">Ismétlés</button>
+            <button id="btnDouble" class="bet-btn">Dupla</button>
+        </div>
+
+
+        <button id="btnSpin" class="btn primary" style="width:100%;">SPIN</button>
+
+        <div class="history">
+          Előző számok:
+          <div id="historyList" class="history-strip"></div>
+        </div>
+      </div>
     </div>
-
-    <div id="rouletteMsg" class="muted"></div>
   </div>
 </div>
+
 
 
 
