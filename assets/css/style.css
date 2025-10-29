@@ -127,3 +127,119 @@ body{
 @media (max-width:600px){
   .symbol{ height:64px; font-size:28px; }
 }
+/* NEON BUTTONS */
+.btn.neon {
+  background: linear-gradient(90deg,#7a00ff,#0066ff);
+  box-shadow: 0 0 10px #6f04fc88, inset 0 0 10px #003cff66;
+  text-shadow: 0 0 6px #8d50ff;
+  transition: 0.2s;
+}
+
+.btn.neon:hover {
+  box-shadow: 0 0 18px #9858ffcc, inset 0 0 18px #0070ffcc;
+  transform: scale(1.05);
+}
+
+/* Danger stop button */
+.btn.danger {
+  background: linear-gradient(90deg,#ff0048,#b80000);
+  box-shadow: 0 0 10px #ff004466;
+}
+
+/* REEL SPIN EFFECT */
+.spin-blur .symbol {
+  opacity: 0.7;
+  filter: blur(4px);
+}
+
+/* WIN ANIM */
+.symbol.win {
+  animation: pulseWin .4s infinite alternate;
+}
+
+@keyframes pulseWin {
+  from { transform: scale(1); box-shadow: 0 0 8px #7a00ff; }
+  to   { transform: scale(1.1); box-shadow: 0 0 16px #4ac3ff; }
+}
+
+/* LOSS shake */
+.shake {
+  animation: shake .3s;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0px); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-4px); }
+  100% { transform: translateX(0px); }
+}
+
+/* Big win text */
+.big-win {
+  font-size: 28px;
+  font-weight: 700;
+  color: #49d8ff;
+  text-shadow: 0 0 10px #00eaff;
+}
+/* BONUS icon image */
+.symbol .bonus-icon {
+  width: 56px; height: 56px; object-fit: contain;
+  filter: drop-shadow(0 0 6px #7a00ffcc);
+}
+
+/* BONUS banner */
+.bonus-banner{
+  margin-top:10px;
+  background:linear-gradient(90deg,#1a1230,#0d203a);
+  border:1px solid rgba(255,255,255,.18);
+  color:#bfe6ff;
+  padding:8px 12px;
+  border-radius:12px;
+  box-shadow:0 0 12px #0066ff55 inset;
+  letter-spacing:.3px;
+  font-weight:600;
+}
+/* optional: no blur override */
+.spin-blur .symbol {
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+/* Roulette modal basic layout */
+.roulette-board {
+  display:flex;
+  justify-content:center;
+  margin:15px 0;
+}
+
+#rouletteCanvas {
+  background:#0e1323;
+  border-radius:50%;
+  border:3px solid #ffffff22;
+}
+
+.bet-controls {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  justify-content:center;
+  margin-top:10px;
+}
+
+.bet-controls button {
+  padding:8px 12px;
+  border-radius:8px;
+  cursor:pointer;
+}
+.game-modal .close{
+  cursor:pointer;
+  float:right;
+  font-size:22px;
+  padding:4px 8px;
+  border-radius:8px;
+  color:#cbd5e1;
+}
+.game-modal .close:hover{
+  background:#ffffff14;
+}

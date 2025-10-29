@@ -1,6 +1,7 @@
 import { initProfile, getBalance, canClaimToday, claimDaily } from "./wallet.js";
 import { setText, showToast } from "./ui.js";
 import { initSlots } from "./games/slots.js";
+import { initRoulette } from "./games/roulette.js";
 
 
 // A kiválasztott profil nevét a sessionStorage-ben tartjuk, hogy ne kelljen minden reloadnál újra írni
@@ -90,4 +91,34 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target === slotModal) closeSlots();
   });
 
+// --- ROULETTE MODAL ---
+const rouletteModal = document.getElementById("rouletteModal");
+const openRouletteBtn = document.getElementById("openRouletteBtn");
+
+function openRoulette() {
+  const profile = sessionStorage.getItem("mini-casino:currentProfile") || "";
+  if (!profile) { showToast("Előbb mentsd el a profilnevet."); return; }
+  rouletteModal.classList.add("show");
+  rouletteModal.setAttribute("aria-hidden", "false");
+  initRoulette();
+}
+
+function closeRoulette() {
+  rouletteModal.classList.remove("show");
+  rouletteModal.setAttribute("aria-hidden", "true");
+}
+
+openRouletteBtn.addEventListener("click", openRoulette);
+
+// a modal fejlécében van egy X (span.close) data-close attribútummal
+rouletteModal.addEventListener("click", (e) => {
+  const target = e.target;
+  if (target.matches('[data-close="rouletteModal"]') || target === rouletteModal) {
+    closeRoulette();
+  }
 });
+
+  
+});
+
+
