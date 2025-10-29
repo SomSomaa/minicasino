@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mini Casino – Blackjack · Roulette · Slots</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">🎰 Mini Casino</div>
+    <div class="profile">
+      <input id="profileName" type="text" placeholder="Profilnév" aria-label="Profilnév" />
+      <button id="saveProfileBtn" class="btn">Mentés</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="wallet">
+      <div class="card">
+        <div class="row">
+          <div>
+            <div class="label">Egyenleg</div>
+            <div id="balance" class="balance">0</div>
+          </div>
+          <div class="actions">
+            <button id="claimBtn" class="btn primary">Napi 10 000 igénylése</button>
+          </div>
+        </div>
+        <div id="dailyInfo" class="muted"></div>
+      </div>
+    </section>
+
+    <section class="games">
+      <div class="grid">
+        <article class="game-card">
+          <h3>Blackjack</h3>
+          <p>6 pakli, dealer stand on 17. Hamarosan…</p>
+          <button class="btn disabled" disabled>Megnyitás</button>
+        </article>
+
+        <article class="game-card">
+          <h3>Roulette</h3>
+          <p>Európai (single zero). Hamarosan…</p>
+          <button class="btn disabled" disabled>Megnyitás</button>
+        </article>
+
+        <article class="game-card">
+          <h3>Slots</h3>
+          <p>3×3 tárcsa, 5 payline. Hamarosan…</p>
+          <button class="btn disabled" disabled>Megnyitás</button>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- Moduláris JS -->
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>
