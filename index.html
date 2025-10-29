@@ -51,11 +51,44 @@
         <article class="game-card">
           <h3>Slots</h3>
           <p>3×3 tárcsa, 5 payline. Hamarosan…</p>
-          <button class="btn disabled" disabled>Megnyitás</button>
+          <button id="openSlotsBtn" class="btn success">Megnyitás</button>
         </article>
       </div>
     </section>
   </main>
+    <!-- SLOTS MODAL -->
+  <div id="slotModal" class="modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="slotTitle">
+      <div class="modal-header">
+        <h2 id="slotTitle">🎰 Slots – 3×3</h2>
+        <button id="closeSlotsBtn" class="btn">Bezárás</button>
+      </div>
+
+      <div class="slot-controls">
+        <label> Tét / vonal:
+          <input id="slotBet" type="number" min="100" step="100" value="100" />
+        </label>
+
+        <label> Vonalak:
+          <select id="slotLines">
+            <option value="1" selected>1 (középső)</option>
+            <option value="5">5 (felső, középső, alsó + 2 átló)</option>
+          </select>
+        </label>
+
+        <button id="spinBtn" class="btn primary">SPIN</button>
+      </div>
+
+      <div class="reels" id="reels">
+        <!-- 3×3 rács, a kód tölti fel -->
+      </div>
+
+      <div class="slot-info">
+        <div id="slotResult" class="muted">Válassz tétet és pörgesd meg!</div>
+      </div>
+    </div>
+  </div>
+
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 

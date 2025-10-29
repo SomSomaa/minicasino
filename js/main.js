@@ -1,5 +1,7 @@
 import { initProfile, getBalance, canClaimToday, claimDaily } from "./wallet.js";
 import { setText, showToast } from "./ui.js";
+import { initSlots } from "./games/slots.js";
+
 
 // A kiválasztott profil nevét a sessionStorage-ben tartjuk, hogy ne kelljen minden reloadnál újra írni
 const PROFILE_KEY = "mini-casino:currentProfile";
@@ -61,4 +63,31 @@ document.addEventListener("DOMContentLoaded", () => {
     else showToast("A mai bónuszt már igényelted.");
     refreshUI(profile);
   });
+
+    // --- SLOTS MODAL ---
+  const slotModal = document.getElementById("slotModal");
+  const openSlotsBtn = document.getElementById("openSlotsBtn");
+  const closeSlotsBtn = document.getElementById("closeSlotsBtn");
+
+  function openSlots() {
+    const profile = sessionStorage.getItem("mini-casino:currentProfile") || "";
+    if (!profile) { showToast("Előbb mentsd el a profilnevet."); return; }
+    slotModal.classList.add("show");
+    slotModal.setAttribute("aria-hidden", "false");
+    initSlots(); // belső elemek bekötése, rács kirajzolás
+  }
+
+  function closeSlots() {
+    slotModal.classList.remove("show");
+    slotModal.setAttribute("aria-hidden", "true");
+  }
+
+  openSlotsBtn.addEventListener("click", openSlots);
+  closeSlotsBtn.addEventListener("click", closeSlots);
+
+  // modál háttérre kattintásra zárás
+  slotModal.addEventListener("click", (e) => {
+    if (e.target === slotModal) closeSlots();
+  });
+
 });
