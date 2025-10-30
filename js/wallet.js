@@ -1,6 +1,25 @@
 import { loadProfileState, saveProfileState } from "./storage.js";
+import { setBalanceFor } from "./storage.js";
+
 
 const DAILY_AMOUNT = 10000;
+
+// --- Következő napi-claim időpont (UTC-napváltás) ---
+export function getNextClaimTime(profile) {
+  try {
+    const key = `mini-casino:${profile}:state`;
+    const raw = localStorage.getItem(key);
+    const state = raw ? JSON.parse(raw) : { lastClaim: 0 };
+    const last = Number(state.lastClaim || 0);
+    if (!last) return 0; // még nem igényelt
+    const d = new Date(last);
+    // következő nap 00:00:00 UTC
+    const nextUTC = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + 1, 0, 0, 0, 0);
+    return nextUTC; // ms timestamp
+  } catch (e) {
+    return 0;
+  }
+}
 
 export function initProfile(profile) {
   let s = loadProfileState(profile);
@@ -8,7 +27,8 @@ export function initProfile(profile) {
     s = { balance: 0, lastClaimDate: null, stats: { wins: 0, losses: 0 } };
     saveProfileState(profile, s);
   }
-  return s;
+  try { setBalanceFor(profile, s.balance); } catch(_) {}
+    return s;
 }
 
 export function getBalance(profile) {
@@ -20,6 +40,7 @@ export function setBalance(profile, newBalance) {
   const s = loadProfileState(profile) || initProfile(profile);
   s.balance = Math.max(0, Math.floor(newBalance));
   saveProfileState(profile, s);
+  try { setBalanceFor(profile, s.balance); } catch(_) {}
   return s.balance;
 }
 
@@ -36,6 +57,7 @@ export function claimDaily(profile) {
   s.balance += DAILY_AMOUNT;
   s.lastClaimDate = today;
   saveProfileState(profile, s);
+  try { setBalanceFor(profile, s.balance); } catch(_) {}
   return { ok: true, balance: s.balance };
 }
 
@@ -46,6 +68,7 @@ export function placeBet(profile, amount) {
   if (s.balance < amount) return { ok: false, reason: "Nincs elég egyenleg." };
   s.balance -= amount;
   saveProfileState(profile, s);
+  try { setBalanceFor(profile, s.balance); } catch(_) {}
   return { ok: true, balance: s.balance };
 }
 
@@ -53,5 +76,6 @@ export function payout(profile, amount) {
   const s = loadProfileState(profile) || initProfile(profile);
   s.balance += Math.max(0, Math.floor(amount));
   saveProfileState(profile, s);
+  try { setBalanceFor(profile, s.balance); } catch(_) {}
   return s.balance;
 }

@@ -281,6 +281,7 @@ spinBtn.onclick = async () => {
       return;
     }
     updateBalanceUI(name);
+    if (typeof refreshLeaderboard === "function") refreshLeaderboard();
   }
 
   spinning = true;
@@ -324,6 +325,7 @@ spinBtn.onclick = async () => {
     won = Math.floor(betPerLine * effectiveMultiplier);
     payout(name, won);
     updateBalanceUI(name);
+    if (typeof refreshLeaderboard === "function") refreshLeaderboard();
     showToast(`Nyeremény: +${won.toLocaleString("hu-HU")} token 🎉`);
     document.getElementById("slotResult").innerHTML =
       `<div class="big-win">+${won.toLocaleString("hu-HU")} token 🎉</div>`;

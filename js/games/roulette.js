@@ -14,7 +14,23 @@ function updateTopBalance(name){
     el.textContent = `${bal.toLocaleString("hu-HU")} token`;
   } catch(_) {}
 }
-
+function showWinBanner(modalId, amount, label="Nyeremény"){
+  const modal = document.getElementById(modalId);
+  if(!modal) return;
+  const box = modal.querySelector(".modal-content.game-modal") || modal;
+  const el = document.createElement("div");
+  el.className = "win-banner";
+  el.innerHTML = `
+    <div class="win-amount">+${amount.toLocaleString("hu-HU")} token</div>
+    <div class="win-label">${label}</div>
+  `;
+  box.appendChild(el);
+  requestAnimationFrame(()=> el.classList.add("show"));
+  setTimeout(()=> {
+    el.classList.remove("show");
+    setTimeout(()=> el.remove(), 240);
+  }, 1600);
+}
 /**
  * Európai rulett számsorrend (0–36)
  * Forrás: standard european single-zero sequence
@@ -392,6 +408,7 @@ if(btnDouble){
     const res = placeBet(name, totalBet);
     if (!res.ok){ msg.textContent = res.reason || "Nem sikerült a tét."; return; }
     updateTopBalance(name);
+    if (typeof refreshLeaderboard === "function") refreshLeaderboard();
     undoStack.push(snapshotBets());
     lastBetsSnapshot = snapshotBets();
     spinning = true;
@@ -446,7 +463,9 @@ if(btnDouble){
 
     if (win > 0){
       payout(name, win);
+      showWinBanner("rouletteModal", win, "Roulette nyeremény");
       updateTopBalance(name);
+      if (typeof refreshLeaderboard === "function") refreshLeaderboard();
       msg.textContent = `🎉 ${finalNumber} — Nyeremény: +${win.toLocaleString("hu-HU")} token`;
     } else {
       msg.textContent = `😕 ${finalNumber} — Veszítettél`;

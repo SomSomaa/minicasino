@@ -16,6 +16,15 @@
       <input id="profileName" type="text" placeholder="Profilnév" aria-label="Profilnév" />
       <button id="saveProfileBtn" class="btn">Mentés</button>
     </div>
+
+    <div class="top-actions" style="display:flex; gap:8px; align-items:center;">
+  <button id="lbToggleTop" class="btn">Ranglista ▼</button>
+  <div id="leaderboardTop" class="lb-menu hidden" style="min-width:260px">
+    <h4>Ranglista</h4>
+    <div id="leaderboardListTop" class="leaderboard-list"></div>
+    </div>
+    </div>
+
   </header>
 
   <main class="container">
@@ -26,20 +35,58 @@
             <div class="label">Egyenleg</div>
             <div id="balance" class="balance">0</div>
           </div>
+
           <div class="actions">
             <button id="claimBtn" class="btn primary">Napi 10 000 igénylése</button>
           </div>
         </div>
         <div id="dailyInfo" class="muted"></div>
+        <div id="dailyCountdown" class="countdown hidden"></div>
       </div>
     </section>
+
+    <!-- Admin (csak helyi, baráti használatra) -->
+<section class="card" id="adminPanel">
+  <div class="row">
+    <div>
+      <div class="label">Admin</div>
+      <div class="muted">Profil limitek és kezelés (helyi tárolás)</div>
+    </div>
+  </div>
+
+  <div class="admin-grid">
+    <div class="admin-box">
+      <div class="label">Aktuális limit</div>
+      <div class="admin-counter">
+        <button id="adminDec" class="btn">−</button>
+        <div class="num"><span id="adminLimit">–</span></div>
+        <button id="adminInc" class="btn">+</button>
+      </div>
+      <div class="muted">Jelenlegi profilok: <strong id="adminCount">0</strong></div>
+    </div>
+
+    <div class="admin-box">
+      <div class="label">Műveletek</div>
+      <div class="actions">
+        <button id="adminReset" class="btn danger">Összes profil törlése</button>
+      </div>
+      <div class="muted">Ez mindent töröl (limit marad). Csak akkor használd, ha nulláról kezdenéd.</div>
+    </div>
+  </div>
+
+  <div style="margin-top:12px">
+    <div class="label">Profilok</div>
+    <ul id="adminProfileList" class="admin-list"></ul>
+  </div>
+</section>
+
 
     <section class="games">
       <div class="grid">
         <article class="game-card">
-          <h3>Blackjack</h3>
-          <p>6 pakli, dealer stand on 17. Hamarosan…</p>
-          <button class="btn disabled" disabled>Megnyitás</button>
+            <h3>Blackjack</h3>
+            <p>6 pakli, dealer stand on 17.</p>
+            <button id="openBlackjackBtn" class="btn success">Megnyitás</button>
         </article>
 
         <article class="game-card">
@@ -155,6 +202,58 @@
   </div>
 </div>
 
+<!-- Blackjack Modal -->
+<div id="blackjackModal" class="modal" aria-hidden="true">
+  <div class="modal-content game-modal" role="dialog" aria-modal="true" aria-labelledby="bjTitle">
+    <span class="close" data-close="blackjackModal">&times;</span>
+    <h2 id="bjTitle">Blackjack ♠️</h2>
+
+    <div class="bj-table">
+      <div class="bj-row">
+        <div class="bj-side">
+          <div class="bj-label">Dealer</div>
+          <div id="bjDealer" class="bj-hand"></div>
+          <div id="bjDealerTotal" class="bj-total muted"></div>
+        </div>
+
+        <div class="bj-side">
+          <div class="bj-label">Játékos</div>
+          <div id="bjPlayer" class="bj-hand"></div>
+          <div id="bjPlayerTotal" class="bj-total muted"></div>
+        </div>
+      </div>
+
+      <div id="bjMsg" class="muted" style="margin-top:8px;">Téteket helyezz, majd DEAL.</div>
+
+      <div class="table-actions">
+        <div class="bet-sum">
+          Tét: <strong><span id="bjBetTotal">0</span></strong> token
+          &nbsp;•&nbsp; Aktív chip: <strong><span id="bjChipValueView">100</span></strong>
+        </div>
+
+        <div class="chip-row" id="bjChips">
+          <button class="chip" data-chip="100">100</button>
+          <button class="chip" data-chip="500">500</button>
+          <button class="chip" data-chip="1000">1k</button>
+          <button class="chip" data-chip="5000">5k</button>
+          <button id="bjClear" class="bet-btn" style="margin-left:auto;">Tét törlése</button>
+        </div>
+
+        <div class="bj-controls">
+          <button id="bjDeal"   class="btn primary">DEAL</button>
+          <button id="bjHit"    class="btn">Hit</button>
+          <button id="bjStand"  class="btn">Stand</button>
+          <button id="bjDouble" class="btn">Double</button>
+        </div>
+      </div>
+
+      <div class="history">
+        Utolsó körök:
+        <div id="bjHistory" class="history-strip"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
