@@ -1364,3 +1364,74 @@ body {
 .leaderboard-list > div:hover {
   background: rgba(255,255,255,.04);
 }
+/* =========================
+   MOBIL/RESPONSIVE FINOMHANGOLÁS
+   ========================= */
+
+/* Általános: nagyobb tappolható felület mobilon */
+@media (max-width: 600px) {
+  .btn { min-height: 44px; padding: 10px 16px; font-size: 15px; }
+  .balance { font-size: 24px; }
+  .container { padding: 0 12px; }
+}
+
+/* Topbar: tördelés, hogy beférjen a profilnév + gombok */
+@media (max-width: 900px) {
+  .topbar { flex-wrap: wrap; gap: 8px; }
+  .brand { order: 1; }
+  .profile { order: 2; width: 100%; }
+  .profile input { min-width: 0; width: 100%; }
+  .top-actions { order: 3; width: 100%; display: flex; justify-content: flex-end; }
+}
+
+/* Modálok: felülre igazítás + belső görgetés, hogy a felső kártya (egyenleg) ne takaródjon ki */
+@media (max-width: 900px) {
+  .modal { align-items: flex-start; padding-top: 16px; padding-bottom: 16px; }
+  .modal-content { max-height: calc(100vh - 48px); overflow: auto; }
+  .modal-header { position: sticky; top: 0; z-index: 1; background: linear-gradient(180deg,#141a25,#10141c); }
+}
+
+/* Slots: kártya/szimbólum magasság kisebb kijelzőn */
+@media (max-width: 600px) {
+  .reels { gap: 8px; }
+  .symbol { height: 64px; font-size: 28px; }
+}
+
+/* Rulett kerék rugalmas méretezése (széles/álló telefonoknál is jó legyen) */
+#rouletteCanvas { width: clamp(280px, 80vw, 420px); height: auto; }
+
+/* Rulettasztal: kompakt cellák mobilon, kisebb chipek */
+@media (max-width: 600px) {
+  .roulette-table { grid-template-columns: 50px repeat(12, 1fr); gap: 6px; padding: 10px; }
+  .rt-cell { height: 38px; font-size: 13px; }
+  .rt-chip { width: 24px; height: 24px; font-size: 11px; }
+  .rt-chip em { right: -6px; bottom: -6px; font-size: 10px; height: 16px; }
+  .history-strip { gap: 4px; }
+  .h-item { width: 26px; height: 26px; font-size: 11px; }
+}
+
+/* Rulett – alsó vezérlőgombok és „chip választó” jobban tördeljen */
+@media (max-width: 800px) {
+  .table-actions { flex-direction: column; }
+  .chip-row { gap: 6px; }
+  .chip { height: 40px; padding: 0 12px; }
+}
+
+/* Blackjack: zsetonok és akciógombok két sorban, ne csússzon szét */
+@media (max-width: 700px) {
+  #bjChips, .bj-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+  #bjChips .chip { height: 40px; padding: 0 12px; }
+  .bj-actions button { flex: 1 1 140px; }
+}
+
+/* Ranglista lenyíló (nav) – mobilon töltsön ki egy sávot, könnyebb tappolni */
+@media (max-width: 600px) {
+  .lb-menu { min-width: 100% !important; }
+  .lb-item { padding: 10px 12px; }
+  .lb-name { margin-right: 18px; } /* név–összeg közti távolság a zsúfoltság ellen */
+}
+
+/* Balance „game-open” effekt kicsit visszafogva nagyon kis kijelzőn */
+@media (max-width: 380px) {
+  .game-open #balance { font-size: 30px; transform: translateY(1px) scale(1.04); }
+}
