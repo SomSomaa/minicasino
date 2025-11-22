@@ -17,12 +17,12 @@
       <button id="saveProfileBtn" class="btn">Mentés</button>
     </div>
 
-    <div class="top-actions" style="display:flex; gap:8px; align-items:center;">
-  <button id="lbToggleTop" class="btn">Ranglista ▼</button>
-  <div id="leaderboardTop" class="lb-menu hidden" style="min-width:260px">
-    <h4>Ranglista</h4>
-    <div id="leaderboardListTop" class="leaderboard-list"></div>
-    </div>
+    <div class="top-actions">
+      <button id="lbToggleTop" class="btn">Ranglista ▼</button>
+      <div id="leaderboardTop" class="lb-menu hidden">
+        <h4>Ranglista</h4>
+        <div id="leaderboardListTop" class="leaderboard-list"></div>
+      </div>
     </div>
 
   </header>
@@ -161,7 +161,9 @@
 
     <!-- TABLE + OUTSIDE + CHIPS + SPIN + HISTORY -->
     <div class="table-section">
-      <div id="rouletteTable" class="roulette-table"></div>
+      <div class="roulette-table-wrapper">
+        <div id="rouletteTable" class="roulette-table"></div>
+      </div>
 
       <div id="outsideRow" class="outside-row">
         <div class="rt-out rt-out-red"   data-out="red">RED</div>
